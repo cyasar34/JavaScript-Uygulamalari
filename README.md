@@ -1,4 +1,4 @@
-## VOYG103 Kodlu JAVASCRIPT UYGULAMALARI Dersi <br>
+## OYG103 Kodlu JAVASCRIPT UYGULAMALARI Dersi <br>
 
 Ders Bilgileri:
 <p align="justify"> <b>Amaç:</b>Bu dersin amacı, öğrencilere JavaScript programlama diline temel bir giriş yaparak, değişkenlerin, veri tiplerinin, operatörlerin kullanımını öğretmek ve ardından koşul yapıları, döngü yapıları ve diziler gibi temel programlama yapılarını anlatmak. Aynı zamanda, fonksiyonlar ve sınıf yapısı ile nesne tabanlı programlamayı tanıtmak, olaylar ve doküman nesne modeli üzerinde durarak etkileşimli web uygulamalarının temellerini öğrencilere sunmaktır. JavaScript dilini etkin bir şekilde kullanabilmeleri ve temel web tabanlı uygulamalar geliştirebilmeleri için gerekli bilgi ve becerileri kazandırmayı hedefler.<br>
