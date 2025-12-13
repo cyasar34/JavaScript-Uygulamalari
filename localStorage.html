@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Not Kaydet ve Sil</title>
+</head>
+<body>
+    <h1>Not Alanı</h1>
+    <p>Kayıtlı Not: <span id="not-gosterge"></span></p>
+    <button id="kaydet-btn">Notu Kaydet</button>
+    <button id="sil-btn">Notu Sil</button>
+</body>
+</html>
+<script>
+const notGosterge = document.getElementById('not-gosterge');
+const kaydetBtn = document.getElementById('kaydet-btn');
+const silBtn = document.getElementById('sil-btn');
+
+// Depolama anahtarı
+const NOT_KEY = 'hizliNotum'; 
+const KAYDEDILECEK_METIN = "Bugün LocalStorage öğrendim!";
+
+// Durumu Yükle ve Göster
+function durumuGoster() {
+    // localStorage.getItem: Kayıtlı metni oku. Yoksa null döner.
+    const kayitliNot = localStorage.getItem(NOT_KEY); 
+    if (kayitliNot) {
+        notGosterge.textContent = kayitliNot;
+        notGosterge.style.color = 'green';
+    } 
+    else 
+    {
+        notGosterge.textContent = 'Henüz kayıtlı bir not yok.';
+        notGosterge.style.color = 'red';
+    }
+}
+// Kaydetme 
+kaydetBtn.addEventListener('click', () => {
+    // localStorage.setItem: String değeri anahtar ile kaydet.
+    localStorage.setItem(NOT_KEY, KAYDEDILECEK_METIN);
+    durumuGoster();
+    console.log("Not kaydedildi: " + KAYDEDILECEK_METIN);
+});
+
+// Silme 
+silBtn.addEventListener('click', () => {
+    // localStorage.removeItem: Anahtar ve değerini tamamen sil.
+    localStorage.removeItem(NOT_KEY);
+    durumuGoster();
+    console.log("Not silindi.");
+});
+
+// Uygulamayı başlat
+durumuGoster();
+</script>
