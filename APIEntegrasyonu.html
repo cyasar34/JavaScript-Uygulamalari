@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Entegrasyonu</title>
+</head>
+<body>
+   <h1>API'dan Gelen Blog Yazıları</h1>
+    <button id="fetch-button">Blog Yazılarını Getir</button>
+    <div id="gonderi-durumu">
+        <p>Butona tıklayarak verileri yükleyin.</p>
+    </div>
+</body>
+</html>
+<script>
+// DOM Elementlerini Seç
+const gonderiDurumu = document.getElementById('gonderi-durumu');
+const fetchButton = document.getElementById('fetch-button'); // Yeni buton elementimiz
+const API_URL = 'https://jsonplaceholder.typicode.com/posts?_limit=10';
+
+//API'dan postları çeken ana asenkron fonksiyon (FONKSİYON TANIMI)
+async function fetchPosts() {
+    // Kullanıcıya yükleme bilgisini göster.
+    gonderiDurumu.innerHTML = '<h2>Veriler yükleniyor... Lütfen bekleyiniz.</h2>';
+    fetchButton.disabled = true; // Butonu devre dışı bırak 
+    // HATA DENETİMİ
+    try {
+        // fetch ile API'a istek göndeririz. await kelimesi, sunucudan yanıt gelene kadar kodun bu satırda durmasını sağlar.
+        const response = await fetch(API_URL);
+
+        // Gelen yanıtta HTTP hatası (404 veya 500) olup olmadığını kontrol eder. Hata varsa, işlemi durdurup catch bloğuna geçer.
+        if (!response.ok) {
+            // response.status, 404, 500 gibi kodları içerir.
+            throw new Error(`API Hatası! Durum kodu: ${response.status}`);
+        }
+        //  Gelen ham veriyi, JavaScript'in kullanabileceği JSON nesnesine dönüştürür ve bunun bitmesini bekler.
+        const gonderi = await response.json();
+        // Çekilen veriyi, ekrana yazdıracak fonksiyona gönderir.
+        displayPosts(gonderi);
+
+    } 
+    //try bloğu içinde bir hata oluşursa (ağ bağlantısı koptu, API hatası vb.), bu kısım devreye girer ve hatayı kırmızı bir metinle gösterir.
+    catch (error) {
+        // Hata durumunda kullanıcıya bilgi ver
+        console.error("İşlemde bir sorun oluştu:", error);
+        gonderiDurumu.innerHTML = `<h2 style="color: red;">Yükleme Başarısız: ${error.message}</h2>`;
+    } 
+}
+
+// Çekilen postları ekrana listeleyen  fonksiyon (Sonuçları Ekrana Yazma Fonksiyonu)
+function displayPosts(gonderi) {
+    gonderiDurumu.innerHTML = ''; // Önceki "Yükleniyor" mesajını veya hataları siler.
+ //HTML kodlarını biriktireceğimiz boş bir metin değişkeni tanımlarız.
+    let htmlContent = '';
+    
+    // Gelen film listesindeki her bir öğe için bir kart oluşturma işlemini tekrarlar.
+    gonderi.forEach(gonderi => {
+        //Döngünün her adımında, oluşturulan film kartının HTML kodunu, htmlContent değişkenine ekler (biriktirir).
+        htmlContent += `
+            <div class="post">
+                <h3>${gonderi.title}</h3>
+                <p>${gonderi.body.substring(0, 100)}...</p> 
+                <hr>
+            </div>
+        `;
+    });
+ //Döngü bittiğinde, biriken tüm HTML kodunu tek seferde sonuç alanına yerleştirir.
+    gonderiDurumu.innerHTML = htmlContent;
+}
+// Olay Dinleyicisi:fetch-button tıklanma olayını dinler ve tıklanma gerçekleştiğinde, yukarıdaki fetchPosts fonksiyonunu çalıştırır.
+fetchButton.addEventListener('click', fetchPosts);
+</script>
